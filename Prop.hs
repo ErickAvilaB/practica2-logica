@@ -16,7 +16,7 @@ import Data.List (nub) -- nub elimina duplicados de una lista
 
 data Prop = T | F | Var String
           | Neg Prop
-          | Conj Prop Prop | Disy Prop Prop 
+          | Conj Prop Prop | Disy Prop Prop
           | Impl Prop Prop | Equiv Prop Prop deriving Eq
 
 type Estado = [String]
@@ -65,8 +65,8 @@ instance Show Prop where
     show (Disy p q) = "( " ++ show p ++ " \\/ " ++ show q ++ " )"
     show (Impl p q) = "( " ++ show p ++ " -> " ++ show q ++ " )"
     show (Equiv p q) = "( " ++ show p ++ " <-> " ++ show q ++ " )"
-    
-    
+
+
 -- ------------------------------------------------------------------------------
 -- Ejercicio 2
 -- Definir la funcion conjPotencia, tal que la aplicación de la funcion es la
@@ -99,7 +99,7 @@ vars (Equiv p q) = nub (vars p ++ vars q)
 -- Definir la función interpreta que dada una formula proposicional y un estado
 -- regrese la interpretación obtenida de la fórmula en dicho estado.
 -- ------------------------------------------------------------------------------
-    
+
 interpretacion :: Prop -> Estado -> Bool
 interpretacion T _ = True
 interpretacion F _ = False
@@ -116,7 +116,7 @@ interpretacion (Equiv p q) st = interpretacion p st == interpretacion q st
 -- una lista de estados que satisfacen a dicha fórmula.
 -- ------------------------------------------------------------------------------
 modelos :: Prop -> [Estado]
-modelos = undefined
+modelos p = filter (interpretacion p) (conjPotencia (vars p))
 
 -- ------------------------------------------------------------------------------
 -- Ejercicio 6.
