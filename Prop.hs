@@ -5,6 +5,8 @@ module Prop where
 -- Laboratorio: Erick Daniel Arroyo Martínez
 -- Laboratorio: Erik Rangel Limón
 
+import Data.List (nub) -- nub elimina duplicados de una lista
+
 -- ------------------------------------------------------------------------------
 -- Definicion de los tipos de datos siguientes:
 -- Prop para representar las fórmulas proporsicionales usando los
@@ -83,7 +85,14 @@ conjPotencia (x : xs) =
 -- ------------------------------------------------------------------------------
 
 vars :: Prop -> [String]
-vars = undefined
+vars T = []
+vars F = []
+vars (Var s) = [s]
+vars (Neg p) = vars p
+vars (Conj p q) = nub (vars p ++ vars q)
+vars (Disy p q) = nub (vars p ++ vars q)
+vars (Impl p q) = nub (vars p ++ vars q)
+vars (Equiv p q) = nub (vars p ++ vars q)
 
 -- ------------------------------------------------------------------------------
 -- Ejercicio 4.
