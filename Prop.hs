@@ -185,7 +185,18 @@ elimImplicacion (Equiv p q) = Equiv (elimImplicacion p) (elimImplicacion q)
 -- Definir una funcion que elimine las equivalencias lógicas de una proposición.
 -- ------------------------------------------------------------------------------
 elimEquivalencias :: Prop -> Prop
-elimEquivalencias = undefined
+elimEquivalencias T = T
+elimEquivalencias F = F
+elimEquivalencias (Var s) = Var s
+elimEquivalencias (Neg p) = Neg (elimEquivalencias p)
+elimEquivalencias (Conj p q) = Conj (elimEquivalencias p) (elimEquivalencias q)
+elimEquivalencias (Disy p q) = Disy (elimEquivalencias p) (elimEquivalencias q)
+elimEquivalencias (Impl p q) = Impl (elimEquivalencias p) (elimEquivalencias q)
+elimEquivalencias (Equiv p q) =
+  Conj (Impl p' q') (Impl q' p')
+  where
+    p' = elimEquivalencias p
+    q' = elimEquivalencias q
 
 -- ------------------------------------------------------------------------------
 -- Número de pruebas a hacer.
