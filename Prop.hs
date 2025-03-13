@@ -71,7 +71,10 @@ instance Show Prop where
 -- lista de todos los subconjuntos de x.
 -- ------------------------------------------------------------------------------
 conjPotencia :: [a] -> [[a]]
-conjPotencia = undefined
+conjPotencia [] = [[]]
+conjPotencia (x : xs) =
+  let subs = conjPotencia xs
+   in subs ++ map (x :) subs
 
 -- ------------------------------------------------------------------------------
 -- Ejercicio 3.
