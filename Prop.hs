@@ -27,45 +27,31 @@ type Estado = [String]
 -- cadena que represente las formulas proposicionales en notacion infija.
 -- ------------------------------------------------------------------------------
 
--- Función auxiliar que indica si una fórmula es atómica (T, F o variable)
-isAtomic :: Prop -> Bool
-isAtomic T = True
-isAtomic F = True
-isAtomic (Var _) = True
-isAtomic _ = False
+isAtom :: Prop -> Bool
+isAtom T         = True
+isAtom F         = True
+isAtom (Var _)   = True
+isAtom _         = False
 
--- Función auxiliar que indica si una fórmula es un conectivo binario
-isBinary :: Prop -> Bool
-isBinary (Conj _ _) = True
-isBinary (Disy _ _) = True
-isBinary (Impl _ _) = True
-isBinary (Equiv _ _) = True
-isBinary _ = False
-
--- Función que remueve los paréntesis externos de una cadena
-removeOuterParens :: String -> String
-removeOuterParens s =
-  if length s >= 4 && head s == '(' && last s == ')'
-    then drop 2 (take (length s - 2) s)
-    else s
+isBin :: Prop -> Bool
+isBin (Conj _ _)  = True
+isBin (Disy _ _)  = True
+isBin (Impl _ _)  = True
+isBin (Equiv _ _) = True
+isBin _           = False
 
 instance Show Prop where
     -- show :: Prop -> String
-    show T = "T"
-    show F = "F"
-    show (Var s) = s
+    show T         = "T"
+    show F         = "F"
+    show (Var s)   = s
     show (Neg p)
-      -- Si el operando es atómico se muestra directamente (ej. ¬q)
-      | isAtomic p = "¬" ++ show p
-      -- Si es una fórmula binaria se remueven los paréntesis que ya genera su show
-      | isBinary p = "¬( " ++ removeOuterParens (show p) ++ " )"
-      -- Para otros casos (por ejemplo, doble negación) se coloca la fórmula entre paréntesis
-      | otherwise = "¬(" ++ show p ++ ")"
-    show (Conj p q) = "( " ++ show p ++ " /\\ " ++ show q ++ " )"
-    show (Disy p q) = "( " ++ show p ++ " \\/ " ++ show q ++ " )"
-    show (Impl p q) = "( " ++ show p ++ " -> " ++ show q ++ " )"
+        | isBin p  = "¬" ++ show p  -- si p es binaria, show p ya incluye paréntesis
+        | otherwise = "¬" ++ (if isAtom p then show p else "(" ++ show p ++ ")")
+    show (Conj p q)  = "( " ++ show p ++ " /\\ " ++ show q ++ " )"
+    show (Disy p q)  = "( " ++ show p ++ " \\/ " ++ show q ++ " )"
+    show (Impl p q)  = "( " ++ show p ++ " -> " ++ show q ++ " )"
     show (Equiv p q) = "( " ++ show p ++ " <-> " ++ show q ++ " )"
-
 
 -- ------------------------------------------------------------------------------
 -- Ejercicio 2
