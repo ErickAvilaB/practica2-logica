@@ -126,7 +126,7 @@ modelos p = filter (interpretacion p) (conjPotencia (vars p))
 -- ------------------------------------------------------------------------------
 
 tautologia :: Prop -> Bool
-tautologia = undefined
+tautologia p = all (interpretacion p) (conjPotencia (vars p))
 
 -- ------------------------------------------------------------------------------
 -- Ejercicio 7.
