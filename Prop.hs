@@ -143,7 +143,7 @@ contradiccion p = not (any (interpretacion p) (conjPotencia (vars p)))
 -- satisfacible.
 -- ------------------------------------------------------------------------------
 esSatisfacible :: Prop -> Bool
-esSatisfacible = undefined
+esSatisfacible p = any (interpretacion p) (conjPotencia (vars p))
 
 -- ------------------------------------------------------------------------------
 -- Ejercicio 9.
