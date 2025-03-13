@@ -171,7 +171,14 @@ deMorgan (Equiv p q) = Equiv (deMorgan p) (deMorgan q)
 -- Definir una función que elimine las implicaciones lógicas de una proposición
 -- ------------------------------------------------------------------------------
 elimImplicacion :: Prop -> Prop
-elimImplicacion = undefined
+elimImplicacion T = T
+elimImplicacion F = F
+elimImplicacion (Var s) = Var s
+elimImplicacion (Neg p) = Neg (elimImplicacion p)
+elimImplicacion (Conj p q) = Conj (elimImplicacion p) (elimImplicacion q)
+elimImplicacion (Disy p q) = Disy (elimImplicacion p) (elimImplicacion q)
+elimImplicacion (Impl p q) = Disy (Neg (elimImplicacion p)) (elimImplicacion q)
+elimImplicacion (Equiv p q) = Equiv (elimImplicacion p) (elimImplicacion q)
 
 -- ------------------------------------------------------------------------------
 -- Ejercicio 11.
