@@ -135,7 +135,7 @@ tautologia p = all (interpretacion p) (conjPotencia (vars p))
 -- firma de la funcion: contradiccion :: Prop -> Bool
 -- ------------------------------------------------------------------------------
 contradiccion :: Prop -> Bool
-contradiccion = undefined
+contradiccion p = not (any (interpretacion p) (conjPotencia (vars p)))
 
 -- ------------------------------------------------------------------------------
 -- Ejercicio 8.
