@@ -152,7 +152,19 @@ esSatisfacible p = any (interpretacion p) (conjPotencia (vars p))
 -- leyes de DeMorgan dada una fórmula proposicional phi.
 -- ------------------------------------------------------------------------------
 deMorgan :: Prop -> Prop
-deMorgan = undefined
+deMorgan T = T
+deMorgan F = F
+deMorgan (Var s) = Var s
+deMorgan (Neg p) =
+  case deMorgan p of
+    Neg q -> deMorgan q -- Elimina dobles negaciones: ¬(¬p) = p
+    Conj p1 p2 -> Disy (deMorgan (Neg p1)) (deMorgan (Neg p2)) -- ¬(p /\ q) = ¬p \/ ¬q
+    Disy p1 p2 -> Conj (deMorgan (Neg p1)) (deMorgan (Neg p2)) -- ¬(p \/ q) = ¬p /\ ¬q
+    p' -> Neg p'
+deMorgan (Conj p q) = Conj (deMorgan p) (deMorgan q)
+deMorgan (Disy p q) = Disy (deMorgan p) (deMorgan q)
+deMorgan (Impl p q) = Impl (deMorgan p) (deMorgan q)
+deMorgan (Equiv p q) = Equiv (deMorgan p) (deMorgan q)
 
 -- ------------------------------------------------------------------------------
 -- Ejercicio 10.
