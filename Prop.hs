@@ -101,7 +101,14 @@ vars (Equiv p q) = nub (vars p ++ vars q)
 -- ------------------------------------------------------------------------------
     
 interpretacion :: Prop -> Estado -> Bool
-interpretacion = undefined
+interpretacion T _ = True
+interpretacion F _ = False
+interpretacion (Var s) st = s `elem` st
+interpretacion (Neg p) st = not (interpretacion p st)
+interpretacion (Conj p q) st = interpretacion p st && interpretacion q st
+interpretacion (Disy p q) st = interpretacion p st || interpretacion q st
+interpretacion (Impl p q) st = not (interpretacion p st) || interpretacion q st
+interpretacion (Equiv p q) st = interpretacion p st == interpretacion q st
 
 -- ------------------------------------------------------------------------------
 -- Ejercicio 5.
