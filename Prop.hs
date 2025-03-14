@@ -27,30 +27,15 @@ type Estado = [String]
 -- cadena que represente las formulas proposicionales en notacion infija.
 -- ------------------------------------------------------------------------------
 
-isAtom :: Prop -> Bool
-isAtom T         = True
-isAtom F         = True
-isAtom (Var _)   = True
-isAtom _         = False
-
-isBin :: Prop -> Bool
-isBin (Conj _ _)  = True
-isBin (Disy _ _)  = True
-isBin (Impl _ _)  = True
-isBin (Equiv _ _) = True
-isBin _           = False
-
 instance Show Prop where
     -- show :: Prop -> String
-    show T         = "T"
-    show F         = "F"
-    show (Var s)   = s
-    show (Neg p)
-        | isBin p  = "¬" ++ show p  -- si p es binaria, show p ya incluye paréntesis
-        | otherwise = "¬" ++ (if isAtom p then show p else "(" ++ show p ++ ")")
-    show (Conj p q)  = "( " ++ show p ++ " /\\ " ++ show q ++ " )"
-    show (Disy p q)  = "( " ++ show p ++ " \\/ " ++ show q ++ " )"
-    show (Impl p q)  = "( " ++ show p ++ " -> " ++ show q ++ " )"
+    show T = "T"
+    show F = "F"
+    show (Var p) = p
+    show (Neg p) = "¬" ++ show p
+    show (Conj p q) = "( " ++ show p ++ " /\\ " ++ show q ++ " )"
+    show (Disy p q) = "( " ++ show p ++ " \\/ " ++ show q ++ " )"
+    show (Impl p q) = "( " ++ show p ++ " -> " ++ show q ++ " )"
     show (Equiv p q) = "( " ++ show p ++ " <-> " ++ show q ++ " )"
 
 -- ------------------------------------------------------------------------------
